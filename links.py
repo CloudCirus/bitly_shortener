@@ -49,11 +49,11 @@ def shorten_link(url: str) -> None:
     try:
         resp = requests.post(api_url, headers=headers, json=payload)
         resp.raise_for_status()
+        response = dict(resp.json())
+        bitlink = response['link']
+        return bitlink
     except requests.exceptions.HTTPError as ex:
         print(ex, 'Неправильная ссылка, попробуйте еще раз...', sep='\n')
-    response = dict(resp.json())
-    bitlink = response['link']
-    return bitlink
 
 
 def count_clicks(bitlink: str):
@@ -69,11 +69,11 @@ def count_clicks(bitlink: str):
     try:
         resp = requests.get(api_uri, headers=headers, params=payload)
         resp.raise_for_status()
+        response = dict(resp.json())
+        clicks = response['total_clicks']
+        return clicks
     except requests.exceptions.HTTPError as ex:
         print(ex, 'Неправильная ссылка, попробуйте еще раз...', sep='\n')
-    response = dict(resp.json())
-    clicks = response['total_clicks']
-    return clicks
 
 
 def data_from_api(url: str) -> str:
