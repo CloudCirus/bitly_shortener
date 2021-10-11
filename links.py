@@ -3,10 +3,10 @@ import requests
 from dotenv import load_dotenv
 
 
-TOKEN = os.getenv('TOKEN')
+BITLY_TOKEN = os.getenv('TOKEN')
 
 
-def collect_authorization_headers(token: str = TOKEN) -> dict:
+def collect_authorization_headers(token: str = BITLY_TOKEN) -> dict:
     return {'Authorization': f'Bearer {token}'}
 
 
