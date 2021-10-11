@@ -77,8 +77,9 @@ def main() -> None:
         result = count_clicks(url)
     else:
         result = shorten_link(url)
-
-    print(result)
+    
+    if result:
+        print(result)
 
 
 if __name__ == '__main__':
