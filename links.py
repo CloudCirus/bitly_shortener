@@ -4,10 +4,7 @@ from dotenv import load_dotenv
 
 
 BITLY_TOKEN = os.getenv('TOKEN')
-
-
-def collect_authorization_headers(token: str = BITLY_TOKEN) -> dict:
-    return {'Authorization': f'Bearer {token}'}
+HEADERS = {'Authorization': f'Bearer {BITLY_TOKEN}'}
 
 
 def convert_from_http_url(url: str) -> str:
@@ -28,8 +25,7 @@ def is_bitlink(url: str):
     url = convert_from_http_url(url)
     if url.startswith('bit.ly'):
         api_url = f'https://api-ssl.bitly.com/v4/bitlinks/{url}'
-        headers = collect_authorization_headers()
-        resp = requests.get(api_url, headers=headers)
+        resp = requests.get(api_url, headers=HEADERS)
         if resp.ok:
             return True
         else:
@@ -40,13 +36,12 @@ def is_bitlink(url: str):
 def shorten_link(url: str) -> None:
     uri = 'bitlinks'
     api_url = f'https://api-ssl.bitly.com/v4/{uri}'
-    headers = collect_authorization_headers()
     url = convert_to_http_url(url)
     payload = {
         'long_url': f'{url}'
     }
     try:
-        resp = requests.post(api_url, headers=headers, json=payload)
+        resp = requests.post(api_url, headers=HEADERS, json=payload)
         resp.raise_for_status()
         response = dict(resp.json())
         bitlink = response['link']
@@ -58,7 +53,6 @@ def shorten_link(url: str) -> None:
 def count_clicks(bitlink: str):
     bitlink = convert_from_http_url(bitlink)
     api_uri = f'https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary'
-    headers = collect_authorization_headers()
     payload = {
         'unit': '',
         'units': '-1',
@@ -66,7 +60,7 @@ def count_clicks(bitlink: str):
         'unit_reference': '',
     }
     try:
-        resp = requests.get(api_uri, headers=headers, params=payload)
+        resp = requests.get(api_uri, headers=HEADERS, params=payload)
         resp.raise_for_status()
         response = dict(resp.json())
         clicks = response['total_clicks']
@@ -75,18 +69,16 @@ def count_clicks(bitlink: str):
         print(ex, 'Неправильная ссылка, попробуйте еще раз...', sep='\n')
 
 
-def data_from_api(url: str) -> str:
+def main() -> None:
+    load_dotenv()
+
+    url = input()
     if is_bitlink(url):
         result = count_clicks(url)
     else:
         result = shorten_link(url)
-    return result
 
-
-def main() -> None:
-    load_dotenv()
-    url = input()
-    print(data_from_api(url))
+    print(result)
 
 
 if __name__ == '__main__':
