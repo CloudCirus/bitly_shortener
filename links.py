@@ -3,7 +3,6 @@ import requests
 from dotenv import load_dotenv
 
 
-load_dotenv()
 TOKEN = os.getenv('TOKEN')
 
 
@@ -85,6 +84,7 @@ def data_from_api(url: str) -> str:
 
 
 def main() -> None:
+    load_dotenv()
     url = input()
     print(data_from_api(url))
 
