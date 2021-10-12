@@ -9,24 +9,20 @@ def convert_to_http_url(url: str) -> str:
     parsed_url = urlparse(url)
     if parsed_url.scheme:
         return url
-    else:
-        if parsed_url.netloc:
-            url = urlunparse(parsed_url._replace(scheme='http'))
-        else:
-            url = urlunparse(parsed_url._replace(
-                scheme='http',
-                netloc=parsed_url.path,
-                path=''
-            ))
-        return url
+    if parsed_url.netloc:
+        return urlunparse(parsed_url._replace(scheme='http'))
+    return urlunparse(parsed_url._replace(
+        scheme='http',
+        netloc=parsed_url.path,
+        path=''
+    ))
 
 
 def convert_from_http_url(url: str) -> str:
     parsed_url = urlparse(url)
     if parsed_url.scheme:
         return url.split('//')[1]
-    else:
-        return url
+    return url
 
 
 def is_bitlink(url: str, headers: dict) -> bool:
@@ -35,8 +31,7 @@ def is_bitlink(url: str, headers: dict) -> bool:
     resp = requests.get(api_url, headers=headers)
     if resp.ok:
         return True
-    else:
-        return False
+    return False
 
 
 def shorten_link(url: str, headers: dict) -> str:
