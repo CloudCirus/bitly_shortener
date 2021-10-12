@@ -29,9 +29,7 @@ def is_bitlink(url: str, headers: dict) -> bool:
     url = convert_from_http_url(url)
     api_url = f'https://api-ssl.bitly.com/v4/bitlinks/{url}'
     resp = requests.get(api_url, headers=headers)
-    if resp.ok:
-        return True
-    return False
+    return resp.ok
 
 
 def shorten_link(url: str, headers: dict) -> str:
@@ -52,10 +50,7 @@ def count_clicks(bitlink: str, headers: dict) -> int:
     bitlink = convert_from_http_url(bitlink)
     api_uri = f'https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary'
     payload = {
-        'unit': '',
         'units': '-1',
-        'size': '',
-        'unit_reference': '',
     }
 
     resp = requests.get(api_uri, headers=headers, params=payload)
