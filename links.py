@@ -62,15 +62,15 @@ def count_clicks(bitlink: str, headers: dict) -> int:
 
 def main() -> None:
     load_dotenv()
-    TOKEN = os.getenv('BITLY_TOKEN')
-    HEADERS = {'Authorization': f'Bearer {TOKEN}'}
+    token = os.getenv('BITLY_TOKEN')
+    headers = {'Authorization': f'Bearer {token}'}
 
     url = input()
     try:
-        if is_bitlink(url, headers=HEADERS):
-            result = count_clicks(url, headers=HEADERS)
+        if is_bitlink(url, headers=headers):
+            result = count_clicks(url, headers=headers)
         else:
-            result = shorten_link(url, headers=HEADERS)
+            result = shorten_link(url, headers=headers)
         if result or result == 0:
             print(result)
     except requests.exceptions.HTTPError as ex:
