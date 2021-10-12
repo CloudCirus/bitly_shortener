@@ -21,7 +21,7 @@ def convert_to_http_url(url: str) -> str:
 def convert_from_http_url(url: str) -> str:
     parsed_url = urlparse(url)
     if parsed_url.scheme:
-        return url.split('//')[1]
+        return f'{parsed_url.netloc}{parsed_url.params}'
     return url
 
 
