@@ -19,15 +19,12 @@ def convert_to_http_url(url: str) -> str:
 
 def is_bitlink(url: str, headers: dict) -> bool:
     url = convert_from_http_url(url)
-    if url.startswith('bit.ly'):
-        api_url = f'https://api-ssl.bitly.com/v4/bitlinks/{url}'
-        resp = requests.get(api_url, headers=headers)
-        resp.raise_for_status()
-        if resp.ok:
-            return True
-        else:
-            return False
-    return False
+    api_url = f'https://api-ssl.bitly.com/v4/bitlinks/{url}'
+    resp = requests.get(api_url, headers=headers)
+    if resp.ok:
+        return True
+    else:
+        return False
 
 
 def shorten_link(url: str, headers: dict) -> str:
