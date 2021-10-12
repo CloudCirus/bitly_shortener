@@ -1,18 +1,30 @@
 import os
 import requests
+from urllib.parse import urlparse, urlunparse
+
 from dotenv import load_dotenv
 
 
-def convert_from_http_url(url: str) -> str:
-    if url.startswith('http'):
-        return url.split('//')[1]
+def convert_to_http_url(url: str) -> str:
+    parsed_url = urlparse(url)
+    if parsed_url.scheme:
+        return url
     else:
+        if parsed_url.netloc:
+            url = urlunparse(parsed_url._replace(scheme='http'))
+        else:
+            url = urlunparse(parsed_url._replace(
+                scheme='http',
+                netloc=parsed_url.path,
+                path=''
+            ))
         return url
 
 
-def convert_to_http_url(url: str) -> str:
-    if not url.startswith('http'):
-        return 'http://' + url
+def convert_from_http_url(url: str) -> str:
+    parsed_url = urlparse(url)
+    if parsed_url.scheme:
+        return url.split('//')[1]
     else:
         return url
 
