@@ -15,7 +15,7 @@ def convert_to_http_url(url: str) -> str:
 def convert_from_http_url(url: str) -> str:
     parsed_url = urlparse(url)
     if parsed_url.scheme:
-        return f'{parsed_url.netloc}{parsed_url.params}'
+        return f'{parsed_url.netloc}{parsed_url.path}'
     return url
 
 
@@ -30,12 +30,12 @@ def shorten_link(url: str, headers: dict) -> str:
     api_url = f'https://api-ssl.bitly.com/v4/bitlinks'
     url = convert_to_http_url(url)
     payload = {
-        'long_url': f'{url}'
+        'long_url': url
     }
 
     resp = requests.post(api_url, headers=headers, json=payload)
     resp.raise_for_status()
-    response = dict(resp.json())
+    response = resp.json()
     bitlink = response['link']
     return bitlink
 
@@ -44,12 +44,12 @@ def count_clicks(bitlink: str, headers: dict) -> int:
     bitlink = convert_from_http_url(bitlink)
     api_uri = f'https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary'
     payload = {
-        'units': '-1',
+        'units': -1,
     }
 
     resp = requests.get(api_uri, headers=headers, params=payload)
     resp.raise_for_status()
-    response = dict(resp.json())
+    response = resp.json()
     total_clicks = response['total_clicks']
     return total_clicks
 
