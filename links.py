@@ -65,8 +65,7 @@ def main() -> None:
             result = count_clicks(url, headers=headers)
         else:
             result = shorten_link(url, headers=headers)
-        if result or result == 0:
-            print(result)
+        print(result)
     except requests.exceptions.HTTPError as ex:
         print(ex, 'Неправильная ссылка, попробуйте еще раз...', sep='\n')
 
