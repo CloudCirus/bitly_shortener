@@ -1,3 +1,4 @@
+import argparse
 import os
 from urllib.parse import urlparse
 
@@ -59,16 +60,22 @@ def main() -> None:
     token = os.getenv('BITLY_TOKEN')
     headers = {'Authorization': f'Bearer {token}'}
 
-    url = input()
+    parser = argparse.ArgumentParser(
+        description='Script convert url to bitlink or show all clicks for bitlink'
+    )
+    parser.add_argument('url', help='url or bitlink')
+
     try:
+        args = parser.parse_args()
+        url = args.url
         if is_bitlink(url, headers=headers):
             total_clicks = count_clicks(url, headers=headers)
-            print(total_clicks)
+            print('Clicks:', total_clicks)
         else:
             shorted_link = shorten_link(url, headers=headers)
-            print(shorted_link)
-    except requests.exceptions.HTTPError as ex:
-        print(ex, 'Неправильная ссылка, попробуйте еще раз...', sep='\n')
+            print('Shorten link:', shorted_link)
+    except requests.exceptions.HTTPError:
+        print('Wrong url, please try again,\nURL like: google.com or bitlink', sep='\n')
 
 
 if __name__ == '__main__':
