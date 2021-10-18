@@ -1,4 +1,4 @@
-# Convert URL to bitlink or show bitlink clicks.
+# Bity shorter.
 
 ## About <a name = "about"></a>
 
