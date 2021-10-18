@@ -6,12 +6,13 @@ Script use [bitly.com](https://bitly.com/) API. Input url to convert it to short
 
 ## Getting Started <a name = "getting_started"></a>
 
-Python3 should be already installed.
 Your need your bitly [access token](https://gist.github.com/dvmn-tasks/58f5fdf7b8eb61ea4ed1b528b74d1ab5#Authentication).
-Check the requirements.txt.
+Python3 should be already installed.
+
+Use pip to install dependencies.
 
 ```
-python3 links.py
+pip install -r requirements.txt
 ```
 
 ## Project goals <a name = "project_goals"></a>
