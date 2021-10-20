@@ -30,9 +30,7 @@ def is_bitlink(url: str, headers: dict) -> bool:
 def shorten_link(url: str, headers: dict) -> str:
     api_url = f'https://api-ssl.bitly.com/v4/bitlinks'
     url = convert_to_http_url(url)
-    payload = {
-        'long_url': url
-    }
+    payload = {'long_url': url}
 
     resp = requests.post(api_url, headers=headers, json=payload)
     resp.raise_for_status()
@@ -44,9 +42,7 @@ def shorten_link(url: str, headers: dict) -> str:
 def count_clicks(bitlink: str, headers: dict) -> int:
     bitlink = convert_from_http_url(bitlink)
     api_uri = f'https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary'
-    payload = {
-        'units': -1,
-    }
+    payload = {'units': -1}
 
     resp = requests.get(api_uri, headers=headers, params=payload)
     resp.raise_for_status()
@@ -72,10 +68,10 @@ def main() -> None:
             total_clicks = count_clicks(url, headers=headers)
             print('Clicks:', total_clicks)
         else:
-            shorted_link = shorten_link(url, headers=headers)
-            print('Shorten link:', shorted_link)
+            short_link = shorten_link(url, headers=headers)
+            print('Shorten link:', short_link)
     except requests.exceptions.HTTPError:
-        print('Wrong url, please try again,\nURL like: google.com or bitlink', sep='\n')
+        print('Wrong url, please try again,\nURL like: google.com or bitlink')
 
 
 if __name__ == '__main__':
