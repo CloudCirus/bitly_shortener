@@ -1,4 +1,4 @@
-# Bity shorter
+# Bitly shortener
 
 ## About <a name = "about"></a>
 
